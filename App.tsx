@@ -1,11 +1,36 @@
-import { ScreenContent } from 'components/ScreenContent';
-import { StatusBar } from 'expo-status-bar';
+import * as ImagePicker from 'expo-image-picker';
+import Intro from 'index';
+import { useState } from 'react';
+import { Button, View } from 'react-native';
+import 'react-native-get-random-values';
+import { uploadImage } from 'utils/upload';
 
 export default function App() {
   return (
     <>
-      <ScreenContent title="Home" path="App.tsx" />
-      <StatusBar style="auto" />
+      <Intro />
+      <UploadImage />
     </>
+  );
+}
+
+function UploadImage() {
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      uploadImage(result.assets[0]);
+    }
+  };
+
+  return (
+    <View>
+      <Button title="Pick an image from camera roll" onPress={pickImage} />
+    </View>
   );
 }
