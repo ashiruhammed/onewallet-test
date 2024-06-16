@@ -6,7 +6,7 @@ import { Buffer } from 'buffer';
 export async function uploadImage(file: any) {
   const s3Client = new S3({
     endpoint: 'https://nyc3.digitaloceanspaces.com',
-    region: 'nyc3',
+    region: process.env.EXPO_BUCKET_REGION || 'us-east-1',
     credentials: {
       accessKeyId: process.env.EXPO_PUBLIC_ACCESS_KEY || '',
       secretAccessKey: process.env.EXPO_PUBLIC_SECRET_KEY || '',
@@ -18,9 +18,9 @@ export async function uploadImage(file: any) {
   });
 
   const params = {
-    Key: 'g',
+    Key: file.fileName,
     Body: Buffer.from(fileBuffer, 'base64'),
-    Bucket: 'onewallet',
+    Bucket: process.env.EXPO_PUBLIC_BUCKET_NAME || '',
   };
 
   s3Client.putObject(params, function (err, data) {

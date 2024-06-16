@@ -1,6 +1,5 @@
 import * as ImagePicker from 'expo-image-picker';
 import Intro from 'index';
-import { useState } from 'react';
 import { Button, View } from 'react-native';
 import 'react-native-get-random-values';
 import { uploadImage } from 'utils/upload';
